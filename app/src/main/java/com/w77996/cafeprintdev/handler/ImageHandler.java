@@ -19,10 +19,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.w77996.cafeprintdev.App;
+import com.w77996.cafeprintdev.R;
 import com.yanzhenjie.andserver.SimpleRequestHandler;
 import com.yanzhenjie.andserver.view.View;
-import com.yanzhenjie.andserver.sample.App;
-import com.yanzhenjie.andserver.sample.R;
+
 
 import org.apache.httpcore.HttpEntity;
 import org.apache.httpcore.HttpException;

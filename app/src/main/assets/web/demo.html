@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+		<title></title>
+		<style type="text/css">
+			#btn{
+				width:100px;
+				height:50px;
+				background:deeppink;
+				text-align:left;
+				line-height:50px;
+				margin:10px auto;
+			}
+			#upload{
+				width:100px;
+				height:50px;
+				background:deeppink;
+				text-align:right;
+				line-height:50px;
+				margin:10px auto;
+				}
+			.album{
+				width:100%;
+				display:flex;
+				height:auto;
+				min-height:50px;
+				justify-content:space-around;
+				flex-wrap:wrap;
+			}
+			.album>div{
+				width:100%;
+				height:70%;
+			    border:1px solid black;
+			}
+			.album>div>img{
+				width:100%;
+				height:70%;
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+		<script type='text/javascript' src="js/cslCamera.js"></script>
+	</head>
+	<body>
+
+		<div id="btn">点击拍照</div>
+		<div id="upload">上传</div>
+		<div class="album"></div>
+	</body>
+	<script type="text/javascript">
+		var img=$(".img");
+		var callBack=function(album){
+			//alert(album);
+			console.log(album);
+			console.log(img);
+
+			album.forEach(function(val,idx){
+				var div=$("<div></div>");
+				var img=$("<img/>");
+				img.attr("src",val.data);
+				div.html(img);
+				$(".album").html(div);
+			});
+		}
+		var carera=new $.Pgater($("#btn"),callBack);
+		$("#upload").click(function(){
+			//var address=window.location.href;
+           	//var thisDLoc   =   document.location;
+            var hostport=document.location.host;
+            if(hostport != null ){
+				var url = "http://"+hostport+"/upload";
+				alert(url);
+            }else{
+            	alert("错误，请检查");
+            }
+
+			/*$.ajax({
+                    url: "upLoadImageServlet",
+                    type: "POST",
+                    data:{formFile:result.clearBase64},
+                    dataType: "HTML",
+                    timeout: 1000,
+                    error: function(){
+                        alert("Error loading PHP document");
+                    },
+                     success: function(result){
+                        //alert(result);
+                        //console.log(result);
+                        alert("Uploads success~")
+                    }
+                });*/
+		  });
+	</script>
+</html>

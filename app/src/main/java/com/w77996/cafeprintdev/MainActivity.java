@@ -1,44 +1,61 @@
 package com.w77996.cafeprintdev;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.w77996.cafeprintdev.broadcast.ServerManager;
 
 import java.util.LinkedList;
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     private ServerManager mServerManager;
     private TextView mTvMessage;
+
+   // private LoadingDialog mDialog;
+    private List<String> mAddressList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
+
+        findViewById(R.id.btn_start).setOnClickListener(this);
+        findViewById(R.id.btn_stop).setOnClickListener(this);
+        findViewById(R.id.btn_browse).setOnClickListener(this);
+
+        mTvMessage = (TextView) findViewById(R.id.tv_message);
 
         // AndServer run in the service.
         mServerManager = new ServerManager(this);
         mServerManager.register();
 
         // startServer;
-       // findViewById(R.id.btn_start).performClick();
-
-
+        findViewById(R.id.btn_start).performClick();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mServerManager.unRegister();
     }
 
-  /*  @Override
+    @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.btn_start: {
-                showDialog();
+                //showDialog();
                 mServerManager.startService();
                 break;
             }
@@ -47,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.btn_browse: {
-                if (..... != null) {
+                if (mAddressList != null) {
                     String address = mAddressList.get(1);
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.VIEW");
@@ -58,30 +75,30 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-    }*/
+    }
 
     /**
      * Start notify.
      */
     public void serverStart(String ip) {
-       // closeDialog();
+      //  closeDialog();
         if (!TextUtils.isEmpty(ip)) {
-            //mAddressList = new LinkedList<>();
-         /*   mAddressList.add(getString(R.string.server_start_succeed));
-            mAddressList.add("http://" + ip + ":8080/");
-            mAddressList.add("http://" + ip + ":8080/login.html");
+            mAddressList = new LinkedList<>();
+            mAddressList.add(getString(R.string.server_start_succeed));
+            mAddressList.add("http://" + ip + ":8080/demo.html");
+            mAddressList.add("http://" + ip + ":8080/index.html");
             mAddressList.add("http://" + ip + ":8080/image");
             mAddressList.add("http://" + ip + ":8080/download");
-            mAddressList.add("http://" + ip + ":8080/upload");*/
+            mAddressList.add("http://" + ip + ":8080/upload");
         }
-        //mTvMessage.setText(TextUtils.join(",\n", mAddressList));
+        mTvMessage.setText(TextUtils.join(",\n", mAddressList));
     }
 
     /**
      * Error notify.
      */
     public void serverError(String message) {
-       // closeDialog();
+      //  closeDialog();
         mTvMessage.setText(message);
     }
 
@@ -97,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void serverStop() {
        // closeDialog();
-        //mAddressList = null;
-       // mTvMessage.setText(R.string.server_stop_succeed);
+        mAddressList = null;
+        mTvMessage.setText(R.string.server_stop_succeed);
     }
-/*
-    private void showDialog() {
+
+   /* private void showDialog() {
         if (mDialog == null)
             mDialog = new LoadingDialog(this);
         if (!mDialog.isShowing()) mDialog.show();
