@@ -1,14 +1,17 @@
 package com.w77996.cafeprintdev;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.w77996.cafeprintdev.broadcast.ServerManager;
 
 import java.util.LinkedList;
@@ -22,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
    // private LoadingDialog mDialog;
     private List<String> mAddressList;
+    private Bitmap mBitmap;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +35,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
+        ZXingLibrary.initDisplayOpinion(this);
+
         findViewById(R.id.btn_start).setOnClickListener(this);
         findViewById(R.id.btn_stop).setOnClickListener(this);
         findViewById(R.id.btn_browse).setOnClickListener(this);
 
         mTvMessage = (TextView) findViewById(R.id.tv_message);
-
+        imageView = (ImageView)findViewById(R.id.img);
         // AndServer run in the service.
         mServerManager = new ServerManager(this);
         mServerManager.register();
@@ -66,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_browse: {
                 if (mAddressList != null) {
                     String address = mAddressList.get(1);
+
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.VIEW");
                     Uri content_url = Uri.parse(address);
@@ -86,11 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAddressList = new LinkedList<>();
             mAddressList.add(getString(R.string.server_start_succeed));
             mAddressList.add("http://" + ip + ":8080/demo.html");
+            mBitmap = CodeUtils.createImage("http://" + ip + ":8080/demo.html", 400, 400, null);
+            imageView.setImageBitmap(mBitmap);
             mAddressList.add("http://" + ip + ":8080/index.html");
             mAddressList.add("http://" + ip + ":8080/image");
             mAddressList.add("http://" + ip + ":8080/download");
             mAddressList.add("http://" + ip + ":8080/upload");
         }
+
         mTvMessage.setText(TextUtils.join(",\n", mAddressList));
     }
 
