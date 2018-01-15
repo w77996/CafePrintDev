@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.w77996.cafeprintdev.broadcast.ServerManager;
+import com.w77996.cafeprintdev.wifi.WifiActivity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ServerManager mServerManager;
     private TextView mTvMessage;
+
+    private TextView wifi_setting;
 
    // private LoadingDialog mDialog;
     private List<String> mAddressList;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_start).setOnClickListener(this);
         findViewById(R.id.btn_stop).setOnClickListener(this);
         findViewById(R.id.btn_browse).setOnClickListener(this);
+        findViewById(R.id.wifi_setting).setOnClickListener(this);
 
         mTvMessage = (TextView) findViewById(R.id.tv_message);
         imageView = (ImageView)findViewById(R.id.img);
@@ -82,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             }
+            case R.id.wifi_setting:
+                Intent wifiIntent = new Intent(MainActivity.this, WifiActivity.class);
+                startActivity(wifiIntent);
+                break;
         }
     }
 
